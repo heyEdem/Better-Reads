@@ -4,7 +4,6 @@ import java.util.List;
 import com.edem.LibraryManagementSystem.Service.BookService;
 import com.edem.LibraryManagementSystem.entity.Book;
 import com.edem.LibraryManagementSystem.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
