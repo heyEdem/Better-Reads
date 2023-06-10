@@ -1,4 +1,4 @@
-package com.edem.LibraryManagementSystem;
+package com.edem.LibraryManagementSystem.Controller;
 
 
 import com.edem.LibraryManagementSystem.Service.BookService;
@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
-public class BookController {
+public class BookRestController {
 
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
+    public BookRestController(BookService bookService) {
         this.bookService = bookService;
     }
 
