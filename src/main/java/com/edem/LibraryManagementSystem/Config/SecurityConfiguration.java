@@ -12,7 +12,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers("*/delete**").hasRole(UserRole.ADMIN.name())
-                .antMatchers("*/edit/**").hasAnyRole(UserRole.ADMIN.name(),UserRole.PUBLISHER.name());
+                .antMatchers("*/edit/**").hasAnyRole(UserRole.ADMIN.name(),UserRole.PUBLISHER.name())
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
 
     }
     @Override
