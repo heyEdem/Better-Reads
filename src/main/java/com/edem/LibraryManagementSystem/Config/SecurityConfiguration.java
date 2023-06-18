@@ -11,6 +11,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .antMatchers("*/delete**").hasRole(UserRole.ADMIN.name())
                 .antMatchers("*/edit/**").hasAnyRole(UserRole.ADMIN.name(),UserRole.PUBLISHER.name());
 
     }
