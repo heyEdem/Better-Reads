@@ -40,7 +40,7 @@ public class BookController {
 
     @PutMapping
     @RequestMapping({"/edit","edit/{id}"})
-    public String editBook(Model model, @PathVariable("id") Optional<Long> id){
+    public String editBook (Model model, @PathVariable("id") Optional<Long> id){
         if (id.isPresent()) {
             Optional <Book> book = bookService.findBookById(id.get());
             if (book.isPresent()) {
