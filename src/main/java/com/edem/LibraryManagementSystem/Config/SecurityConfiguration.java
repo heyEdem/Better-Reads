@@ -1,5 +1,6 @@
 package com.edem.LibraryManagementSystem.Config;
 
+import org.apache.catalina.User;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests()
                 .antMatchers("/delete").hasRole(UserRole.ADMIN.name())
                 .antMatchers("/edit").hasAnyRole(UserRole.ADMIN.name(),UserRole.PUBLISHER.name())
+                .antMatchers("/actuator/**").hasRole(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();
