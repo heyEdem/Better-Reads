@@ -20,7 +20,7 @@
         <div class="card-body">
             <div th:switch="${books}" class="container my-5">
                 <p class="my-5">
-                    <a href="/edit" class="btn btn-success" sec:authorize="hasAnyRole('ADMIN','PUBLISHER')">
+                    <a href="/addBook" class="btn btn-success" sec:authorize="hasAnyRole('ADMIN','PUBLISHER')">
                         <i class="fas fa-solid fa-plus">Add Book</i>
                     </a>
                 </p>

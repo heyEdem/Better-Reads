@@ -26,14 +26,15 @@ public class BookController {
         return "index";
     }
 
+    @GetMapping("/addBook")
+    public String postNewBook(Book book) {
+        return "add-edit-book";
+    }
+
 
     @PostMapping("/addBook")
-
     public String addNewBook(Book book){
         Book result = bookService.createBook(book);
-        if(result==null){
-            return "redirect:/";
-        }
         return "redirect:/";
     }
 
