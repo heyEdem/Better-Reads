@@ -31,13 +31,13 @@ public class LibraryManagementSystemApplication implements ApplicationRunner {
 
 		if (books != null && books.isEmpty()) {
 
-			Book book1 = Book.builder().name("Book1").description("Description").price(214.5)
+			Book book1 = Book.builder().title("Book1").author("Josh Long").description("Description").price(214.5)
 					.build();
-			Book book2 = Book.builder().name("Book2").description("Description").price(11.8)
+			Book book2 = Book.builder().title("Book2").author("Hannan Gambit").description("Description").price(11.8)
 					.build();
-			Book book3 = Book.builder().name("Book3").description("Description").price(21.7)
+			Book book3 = Book.builder().title("Book3").author("Elvis Ennumh").description("Description").price(21.7)
 					.build();
-			Book book4 = Book.builder().name("Book4").description("Description").price(3.99)
+			Book book4 = Book.builder().title("Book4").author("Emefa Diana").description("Description").price(3.99)
 					.build();
 
 			Arrays.asList(book1, book2, book3).forEach(b -> bookService.createBook(b));
