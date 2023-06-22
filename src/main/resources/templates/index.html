@@ -7,14 +7,14 @@
     <title>All Books</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
-<!--    <link rel="stylesheet" href="https://usefontawesome.com/releases/v5.4.1/css/all.css"/>-->
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
 </head>
 <body>
 <div class="container my-2">
     Hello <b sec:authentication="principal.Username"></b>
     <a href="/logout" style="float:right">Logout</a>
+    <br>
+    <a href="/actuator" style="float:right" sec:authorize="hasRole('ADMIN')">Actuator</a>
     <h1 font-family="arial">Library Management System in KNUST</h1>
     <div class="card">
         <div class="card-body">
