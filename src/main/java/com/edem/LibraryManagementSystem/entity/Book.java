@@ -19,6 +19,9 @@ public class Book {
 
     private String title;
 
+//    @ManyToOne
+//    @JoinColumn(name="authors_id", nullable = false)
+
     private String author;
 
     private String description;

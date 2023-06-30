@@ -27,13 +27,13 @@ public class BookController {
     }
 
     @GetMapping("/addBook")
-    public String postNewBook(Book book) {
+    public String addNewBook(Book book) {
         return "add-edit-book";
     }
 
 
     @PostMapping("/addBook")
-    public String addNewBook(Book book){
+    public String postNewBook(Book book){
         Book result = bookService.createBook(book);
         return "redirect:/";
     }
