@@ -45,13 +45,13 @@
                                     <td>
                                         <a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-warning"
                                            sec:authorize="hasAnyRole('ADMIN','PUBLISHER')">
-                                            <i class="fas fa-solid fa-edit"></i>
+                                            <button class="btn btn-warning">Edit</button>
                                         </a>
                                     </td>
                                     <td>
                                         <a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger"
                                         sec:authorize="hasRole('ADMIN')">
-                                            <i class="fas fa-solid fa-trash"></i>
+                                            <button class="btn btn-danger">Delete</button>
                                         </a>
                                     </td>
                                 </tr>

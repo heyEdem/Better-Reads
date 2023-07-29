@@ -3,6 +3,7 @@ package com.edem.LibraryManagementSystem.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.swing.*;
 
 @Getter
 @Setter
@@ -27,4 +28,5 @@ public class Book {
     private String description;
 
     private double price;
+
 }

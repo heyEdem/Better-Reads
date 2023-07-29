@@ -47,9 +47,9 @@ public class BookController {
             if (book.isPresent()) {
                 model.addAttribute("book",book);
             }
-            else{
-                model.addAttribute("book", new Book());
-            }
+//            else{
+//                model.addAttribute("book", new Book());
+//            }
         }
         return "add-edit-book";
     }
