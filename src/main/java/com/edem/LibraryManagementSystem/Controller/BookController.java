@@ -30,8 +30,6 @@ public class BookController {
     public String addNewBook(Book book) {
         return "add-edit-book";
     }
-
-
     @PostMapping("/addBook")
     public String postNewBook(Book book){
         Book result = bookService.createBook(book);
