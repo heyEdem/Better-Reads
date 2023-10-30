@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
+@RequestMapping("/books")
 public class BookController {
 
     private final BookService bookService;
