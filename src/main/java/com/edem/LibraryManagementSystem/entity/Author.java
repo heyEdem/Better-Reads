@@ -21,6 +21,9 @@ public class Author {
     private String firstName;
     private String lastName;
 
+    @OneToOne(mappedBy = "user")
+    private User user;
+
     @OneToMany(mappedBy = "authors", fetch = FetchType.LAZY)
     private Set <Book> books = new HashSet<>();
 
