@@ -20,10 +20,9 @@ public class Book {
 
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name="authors_id", nullable = false)
-
-    private String author;
+    @ManyToOne
+    @JoinColumn(name="authors_id", nullable = false)
+    private Author author;
 
     private String description;
 
