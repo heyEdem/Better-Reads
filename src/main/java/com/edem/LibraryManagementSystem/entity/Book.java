@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.swing.*;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ import javax.swing.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name= "books")
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -21,11 +22,15 @@ public class Book {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name="authors_id", nullable = false)
+    @JoinColumn(name="author_id",referencedColumnName ="author_id", nullable = false)
     private Author author;
 
     private String description;
 
-    private double price;
+    private BigInteger price;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id", nullable = false)
+//    private Instructor instructor;
 
 }
