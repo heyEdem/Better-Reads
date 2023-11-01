@@ -21,8 +21,8 @@ public class Book {
 
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name="author_id",referencedColumnName ="author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="author_id", referencedColumnName ="author_id", nullable = false)
     private Author author;
 
     private String description;

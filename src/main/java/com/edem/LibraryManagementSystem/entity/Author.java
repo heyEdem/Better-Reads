@@ -16,15 +16,22 @@ import java.util.Set;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "author_id")
+    @Column(name = "author_Id")
     private Long authorId;
+
+    @Basic
+    @Column(name = "first_name")
     private String firstName;
+
+    @Basic
+    @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id",nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-    private Set <Book> books = new HashSet<>();
+    @OneToMany(mappedBy ="author", fetch = FetchType.LAZY)
+    private Set<Book> books = new HashSet<>();
 
 }
