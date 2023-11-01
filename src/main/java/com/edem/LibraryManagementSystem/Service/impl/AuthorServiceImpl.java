@@ -13,10 +13,6 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService {
     private AuthorRepository repository;
 
-    public AuthorServiceImpl(AuthorRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public Author createAuthor(Author author) {
         return repository.save(author);
@@ -43,7 +39,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Optional<Author> findAuthorByName(String name) {
-        return Optional.ofNullable(repository.findAuthorByName(name));
+    public Optional<Author> findAuthorByName(String lastName) {
+        return Optional.ofNullable(repository.findAuthorByLastName(lastName));
     }
 }
