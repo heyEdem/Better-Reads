@@ -2,20 +2,29 @@ package com.edem.LibraryManagementSystem.Service.impl;
 
 import com.edem.LibraryManagementSystem.Service.AuthorService;
 import com.edem.LibraryManagementSystem.entity.Author;
+import com.edem.LibraryManagementSystem.repository.AuthorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
+    private AuthorRepository repository;
+
+    public AuthorServiceImpl(AuthorRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Author createAuthor(Author author) {
-        return null;
+        return repository.save(author);
     }
 
     @Override
     public List<Author> findAllAuthors() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
@@ -25,16 +34,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deleteAuthor(Long authorId) {
-
+        repository.findById(authorId).ifPresent(repository::delete);
     }
 
     @Override
     public Optional<Author> findAuthorById(Long authorId) {
-        return Optional.empty();
+        return repository.findById(authorId);
     }
 
     @Override
     public Optional<Author> findAuthorByName(String name) {
-        return Optional.empty();
+        return Optional.ofNullable(repository.findAuthorByName(name));
     }
 }
