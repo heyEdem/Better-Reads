@@ -40,4 +40,14 @@ public class BookServiceImpl implements BookService {
     public Optional<Book> findBookById(Long id) {
         return repository.findById(id);
     }
+
+    @Override
+    public Optional<Book> findBookByTitle(String title) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Book> findBookByAuthor(String author) {
+        return Optional.empty();
+    }
 }

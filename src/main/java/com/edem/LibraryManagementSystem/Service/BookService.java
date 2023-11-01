@@ -17,4 +17,6 @@ public interface BookService {
 
     Optional<Book> findBookById(Long id);
 
+    Optional<Book> findBookByTitle(String title);
+    Optional<Book> findBookByAuthor(String author);
 }
