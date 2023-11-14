@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.edem.LibraryManagementSystem.Service.BookService;
 import com.edem.LibraryManagementSystem.entity.Book;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/books")
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
 
     @GetMapping("/")
     public String getAllBooks(Model model){
@@ -28,7 +27,9 @@ public class BookController {
     }
 
     @GetMapping("/addBook")
-    public String addNewBook(Book book) {
+    public String addNewBook(Book book , Model model) {
+        Book newBook = bookService.createBook(book);
+        model.addAttribute("book",newBook);
         return "add-edit-book";
     }
     @PostMapping("/addBook")
