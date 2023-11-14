@@ -27,6 +27,7 @@ public class Author {
     @Column(name = "last_name")
     private String lastName;
 
+
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id",nullable = false)
     private User user;
@@ -34,4 +35,8 @@ public class Author {
     @OneToMany(mappedBy ="author", fetch = FetchType.LAZY)
     private Set<Book> books = new HashSet<>();
 
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
