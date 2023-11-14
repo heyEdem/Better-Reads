@@ -29,6 +29,12 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Author author;
 
+    public User (String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,10 +43,6 @@ public class User {
         return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(author, user.author);
     }
 
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     @Override
     public int hashCode() {
