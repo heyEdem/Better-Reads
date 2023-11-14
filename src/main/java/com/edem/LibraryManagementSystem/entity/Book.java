@@ -27,10 +27,10 @@ public class Book {
 
     private String description;
 
-    private BigInteger price;
+    private int price;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id", nullable = false)
-//    private Instructor instructor;
-
+    public Book(String title, int price) {
+        this.title = title;
+        this.price = price;
+    }
 }
