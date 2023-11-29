@@ -2,16 +2,20 @@ package com.edem.LibraryManagementSystem.Service.impl;
 
 import com.edem.LibraryManagementSystem.Service.AuthorService;
 import com.edem.LibraryManagementSystem.entity.Author;
+import com.edem.LibraryManagementSystem.entity.Book;
 import com.edem.LibraryManagementSystem.repository.AuthorRepository;
+import com.edem.LibraryManagementSystem.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private AuthorRepository repository;
+    private BookRepository bookRepository;
 
     @Override
     public Author createAuthor(Author author) {
@@ -41,5 +45,17 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<Author> findAuthorByName(String lastName) {
         return Optional.ofNullable(repository.findAuthorByLastName(lastName));
+    }
+
+    @Override
+    public int bookCount(Author author) {
+//        var bookCount = new ArrayList<>();
+
+//        for (Book book: bookRepository.findAll())
+//            if(book.getAuthor().getId() == authorId) bookCount.add(book);
+//
+//        return bookCount.size();
+        var bookCount = repository.findAuthorBooks(author);
+        return bookCount.get().size();
     }
 }

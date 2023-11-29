@@ -12,4 +12,6 @@ public interface AuthorService {
     void deleteAuthor(Long authorId);
     Optional<Author> findAuthorById(Long authorId);
     Optional<Author> findAuthorByName(String name);
+
+    int bookCount(Author author);
 }
