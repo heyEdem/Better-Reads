@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
@@ -57,5 +59,11 @@ public class AuthorServiceImpl implements AuthorService {
 //        return bookCount.size();
         var bookCount = repository.findAuthorBooks(author);
         return bookCount.get().size();
+    }
+
+    public Set<Book> findAuthorBooks(Long authorId){
+        Optional<Author> author = repository.findById(authorId);
+        Set<Book> list = author.get().getBooks();
+        return  list;
     }
 }
