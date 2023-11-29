@@ -13,8 +13,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     @Override
-    public User createUser(String email,  String password) {
-        return repository.save( new User(email, password));
+    public User createUser(User user) {
+        return repository.save(user);
     }
 
     @Override
