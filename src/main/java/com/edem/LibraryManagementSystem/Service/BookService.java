@@ -1,6 +1,8 @@
 package com.edem.LibraryManagementSystem.Service;
 
 import java.util.List;
+
+import com.edem.LibraryManagementSystem.entity.Author;
 import com.edem.LibraryManagementSystem.entity.Book;
 
 import java.util.Optional;
@@ -9,7 +11,11 @@ import java.util.Optional;
 public interface BookService {
     List <Book> findAllBooks();
 
-    Book createBook(Book book);
+    Book createorUpdateBook(Book book);
+
+//    Book makeBook(Long )
+
+    Book createBook(String title, String description,Double price, Long authorId);
 
     void updateBook(Book book);
 
@@ -19,4 +25,5 @@ public interface BookService {
 
     Optional<Book> findBookByTitle(String title);
     Optional<Book> findBookByAuthor(String author);
+    Optional<Author> findBookAuthor(Long bookId);
 }

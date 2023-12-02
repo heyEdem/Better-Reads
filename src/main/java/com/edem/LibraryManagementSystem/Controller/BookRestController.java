@@ -2,22 +2,24 @@ package com.edem.LibraryManagementSystem.Controller;
 
 
 import com.edem.LibraryManagementSystem.Service.BookService;
+import com.edem.LibraryManagementSystem.entity.Author;
 import com.edem.LibraryManagementSystem.entity.Book;
+import com.edem.LibraryManagementSystem.repository.AuthorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/book")
 public class BookRestController {
 
     private final BookService bookService;
-
-    public BookRestController(BookService bookService) {
-        this.bookService = bookService;
-    }
+    private final AuthorRepository authorRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<Book>> getAllBooks(){
@@ -26,11 +28,9 @@ public class BookRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity <Long> addNewBook(@RequestBody Book book){
-        Book insertedbook = bookService.createBook(book);
-        if(insertedbook == null)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity (insertedbook.getId(), HttpStatus.OK);
+    public ResponseEntity<Book> addBook (String title, String description, Double price, Long authorId){
+        Book book = bookService.createBook(title, description, price, authorId);
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -43,5 +43,10 @@ public class BookRestController {
     public ResponseEntity delete(@PathVariable("id") Long id){
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{bookId}/author")
+    public Optional<Author> getBookAuthor(@PathVariable("bookId") Long bookId){
+        return bookService.findBookAuthor(bookId);
     }
 }

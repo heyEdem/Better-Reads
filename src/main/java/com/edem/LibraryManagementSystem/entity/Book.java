@@ -6,8 +6,6 @@ import javax.persistence.*;
 import javax.swing.*;
 import java.math.BigInteger;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,10 +25,52 @@ public class Book {
 
     private String description;
 
-    private int price;
+    private double price;
 
-    public Book(String title, int price) {
+    public Book(String title, String description, Double price, Author author) {
         this.title = title;
+        this.description = description;
+        this.price = price;
+        this.author = author;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
         this.price = price;
     }
 }
