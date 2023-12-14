@@ -3,13 +3,16 @@ package com.edem.LibraryManagementSystem.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.swing.*;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "books")
 public class Book {
 
@@ -19,36 +22,16 @@ public class Book {
 
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="author_id", referencedColumnName ="id" )
-    private Author author;
-
     private String description;
 
     private double price;
 
-    public Book(String title, String description, Double price, Author author) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.author = author;
-    }
+    private BigInteger likeCount;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private LocalDateTime uploadedAt;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     public Author getAuthor() {
         return author;
@@ -58,19 +41,15 @@ public class Book {
         this.author = author;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book book)) return false;
+        return Double.compare(book.price, price) == 0 && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(likeCount, book.likeCount) && Objects.equals(getAuthor(), book.getAuthor());
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, price, likeCount, getAuthor());
     }
 }
