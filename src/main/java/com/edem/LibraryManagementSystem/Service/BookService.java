@@ -11,11 +11,7 @@ import java.util.Optional;
 public interface BookService {
     List <Book> findAllBooks();
 
-    Book createorUpdateBook(Book book);
-
-//    Book makeBook(Long )
-
-    Book createBook(String title, String description,Double price, Long authorId);
+    Book createBook(Long authorId, Book book);
 
     void updateBook(Book book);
 
@@ -23,7 +19,6 @@ public interface BookService {
 
     Optional<Book> findBookById(Long id);
 
-    Optional<Book> findBookByTitle(String title);
-    Optional<Book> findBookByAuthor(String author);
-    Optional<Author> findBookAuthor(Long bookId);
+    List<Book> findBookByTitle(String title);
+    Author findBookAuthor(Long bookId);
 }
