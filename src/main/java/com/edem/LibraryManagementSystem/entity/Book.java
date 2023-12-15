@@ -1,5 +1,6 @@
 package com.edem.LibraryManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,10 +27,10 @@ public class Book {
 
     private double price;
 
-    private BigInteger likeCount;
+    private BigInteger likes;
 
     private LocalDateTime uploadedAt;
-    @ManyToOne
+    @ManyToOne @JsonIgnore
     @JoinColumn(name = "author_id")
     private Author author;
 
@@ -45,11 +46,11 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book book)) return false;
-        return Double.compare(book.price, price) == 0 && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(likeCount, book.likeCount) && Objects.equals(getAuthor(), book.getAuthor());
+        return Double.compare(book.price, price) == 0 && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(likes, book.likes) && Objects.equals(getAuthor(), book.getAuthor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, price, likeCount, getAuthor());
+        return Objects.hash(id, title, description, price, likes, getAuthor());
     }
 }
