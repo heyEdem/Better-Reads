@@ -1,75 +1,71 @@
 package com.edem.LibraryManagementSystem.Service.impl;
 
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.edem.LibraryManagementSystem.Service.BookService;
 import com.edem.LibraryManagementSystem.entity.Author;
 import com.edem.LibraryManagementSystem.entity.Book;
 import com.edem.LibraryManagementSystem.repository.AuthorRepository;
 import com.edem.LibraryManagementSystem.repository.BookRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService {
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository repository, AuthorRepository authorRepository) {
-        this.repository = repository;
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository) {
+        this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
     }
 
     @Override
     public List<Book> findAllBooks() {
-        return repository.findAll();
+        log.info("found all");
+        return bookRepository.findAll();
     }
 
     @Override
-    public Book createorUpdateBook(Book book) {
-        return repository.save(book);
+    public Book createBook(Long authorId, Book book) {
+        var author = authorRepository.findById(authorId);
+        book.setLikes(BigInteger.valueOf(0));
+        book.setUploadedAt(LocalDateTime.now());
+        book.setAuthor(author.get());
+        log.info("{} created at {} ",book.getTitle(), book.getUploadedAt());
+        return bookRepository.save(book);
     }
-
-
-    @Override
-    public Book createBook(String title, String description, Double price, Long authorId) {
-        var author = authorRepository.findById(authorId).orElseThrow(()-> new EntityNotFoundException("Author with id "+authorId+" not found"));
-        return repository.save(new Book(title, description, price, author));
-    }
-
 
     @Override
     public void updateBook(Book book) {
-         repository.save(book);
+
     }
 
     @Override
     public void deleteBook(Long id) {
-         repository.deleteById(id);
     }
 
     @Override
     public Optional<Book> findBookById(Long id) {
-        return repository.findById(id);
+        return bookRepository.findById(id);
     }
 
     @Override
-    public Optional<Book> findBookByTitle(String title) {
-        return Optional.empty();
+    public List<Book> findBookByTitle(String title) {
+        return bookRepository.findBooksByTitleContains(title);
     }
+
 
     @Override
-    public Optional<Book> findBookByAuthor(String author) {
-        return Optional.empty();
+    public Author findBookAuthor(Long bookId) {
+        var book = bookRepository.findById(bookId);
+        return book.get().getAuthor();
     }
-
-    @Override
-    public Optional<Author> findBookAuthor(Long bookId) {
-        Optional<Book> result = repository.findById(bookId);
-        //noinspection OptionalGetWithoutIsPresent
-        return Optional.ofNullable(result.get().getAuthor());
-    }
-
-
 }
