@@ -48,4 +48,10 @@ public class BookController {
         return new ResponseEntity<Author>(bookService.findBookAuthor(bookId),HttpStatus.FOUND);
     }
 
+    @PostMapping("/like/{id}")
+    public ResponseEntity<Void> likeBook(@PathVariable("id") Long id){
+        bookService.likeBook(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
