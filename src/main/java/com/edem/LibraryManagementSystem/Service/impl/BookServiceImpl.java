@@ -53,6 +53,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void likeBook(Long id) {
+        var book = bookRepository.findById(id).get();
+        book.likeBook();
+        bookRepository.save(book);
+    }
+
+    @Override
     public Optional<Book> findBookById(Long id) {
         return bookRepository.findById(id);
     }
