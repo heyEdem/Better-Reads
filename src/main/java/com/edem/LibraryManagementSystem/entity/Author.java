@@ -2,15 +2,17 @@ package com.edem.LibraryManagementSystem.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
-@Data
+import javax.persistence.*;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.*;
+
+@Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
 @Setter
 @Entity
 @Table(name = "authors")
@@ -19,24 +21,27 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic
-    @Column(name = "first_name")
     private String firstName;
 
-    @Basic
-    @Column(name = "last_name")
     private String lastName;
 
+    private BigInteger likes;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id",nullable = false)
-    private User user;
+    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy ="author", fetch = FetchType.LAZY)
-    private Set<Book> books = new HashSet<>();
+    @ToString.Exclude
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
+    private List<Book> books = new ArrayList<>();
 
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author author)) return false;
+        return Objects.equals(getId(), author.getId()) && Objects.equals(getFirstName(), author.getFirstName()) && Objects.equals(getLastName(), author.getLastName()) && Objects.equals(getLikes(), author.getLikes()) && Objects.equals(getCreatedAt(), author.getCreatedAt()) && Objects.equals(getBooks(), author.getBooks());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getLikes(), getCreatedAt(), getBooks());
     }
 }
