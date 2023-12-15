@@ -34,6 +34,9 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    public void likeBook(){
+        this.likes = this.likes.add(BigInteger.valueOf(1));
+    }
     public Author getAuthor() {
         return author;
     }
