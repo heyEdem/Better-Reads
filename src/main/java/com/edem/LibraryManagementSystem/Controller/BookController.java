@@ -4,64 +4,48 @@ import java.util.List;
 import java.util.Optional;
 
 import com.edem.LibraryManagementSystem.Service.BookService;
+import com.edem.LibraryManagementSystem.entity.Author;
 import com.edem.LibraryManagementSystem.entity.Book;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Controller
-@RequestMapping("/books")
-@RequiredArgsConstructor
+@RestController
+@Slf4j
+@RequestMapping("/api/books")
 public class BookController {
-
     private final BookService bookService;
 
-
-    @GetMapping("/")
-    public String getAllBooks(Model model){
-        List<Book> books= bookService.findAllBooks();
-        model.addAttribute("books",books);
-        return "index";
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
-    @GetMapping("/addBook")
-    public String addNewBook(Book book , Model model) {
-        Book newBook = bookService.createBook(book);
-        model.addAttribute("book",newBook);
-        return "add-edit-book";
-    }
-    @PostMapping("/addBook")
-    public String postNewBook(Book book){
-        Book result = bookService.createBook(book);
-        return "redirect:/";
+    @PostMapping("/{authorId}/save")
+    public ResponseEntity<Book> createBook(@PathVariable("authorId") Long authorId, @RequestBody Book book){
+        log.info("got book with id {}",book.getId());
+         return new ResponseEntity<Book>(bookService.createBook(authorId, book), HttpStatus.CREATED);
     }
 
-
-    @PutMapping
-    @RequestMapping({"/edit","edit/{id}"})
-    public String editBook (Model model, @PathVariable("id") Optional<Long> id){
-        if (id.isPresent()) {
-            Optional <Book> book = bookService.findBookById(id.get());
-            if (book.isPresent()) {
-                model.addAttribute("book",book);
-            }
-//            else{
-//                model.addAttribute("book", new Book());
-//            }
-        }
-        return "add-edit-book";
+    @GetMapping("/all")
+    public ResponseEntity<List<Book>> findAllBooks (){
+        return new ResponseEntity<List<Book>>(bookService.findAllBooks(),HttpStatus.FOUND);
     }
 
-    @RequestMapping("/delete/{id}")
-    public String deleteBook(@PathVariable("id") Long id){
-        bookService.deleteBook(id);
-        return "redirect:/";
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Book>> findBookById(@PathVariable("id") Long id){
+        return new ResponseEntity<Optional<Book>>(bookService.findBookById(id),HttpStatus.FOUND);
     }
 
-    @GetMapping("/login")
-    public String loginPage(){
-        return "login";
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<Book>> findBookByTitle(@PathVariable("title") String title){
+        return new ResponseEntity<List<Book>>(bookService.findBookByTitle(title),HttpStatus.FOUND);
     }
+
+    @GetMapping("/{bookId}/author")
+    public ResponseEntity<Author> getBookAuthor(@PathVariable("bookId") Long bookId){
+        return new ResponseEntity<Author>(bookService.findBookAuthor(bookId),HttpStatus.FOUND);
+    }
+
 }
