@@ -7,11 +7,12 @@ import java.util.Optional;
 
 public interface AuthorService {
     Author createAuthor (Author author);
+
     List<Author> findAllAuthors();
     void updateAuthor(Author author);
     void deleteAuthor(Long authorId);
     Optional<Author> findAuthorById(Long authorId);
-    Optional<Author> findAuthorByName(String name);
+    List<Author> findAuthorByName( String lastname);
 
     int bookCount(Author author);
 }
