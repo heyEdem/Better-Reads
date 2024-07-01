@@ -1,54 +1,61 @@
 package com.edem.LibraryManagementSystem.entity;
-
-import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Objects;
+import lombok.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Data
+
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "users")public class User {
     @Id
-    @Basic
-    @Column(name = "user_id")
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    @Basic
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Basic
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    private Author author;
+    @Enumerated(EnumType.STRING)
+    private Roles roles;
 
-    public User (String email, String password) {
-        this.email = email;
-        this.password = password;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isVerified;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isDeleted;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime deletedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(author, user.author);
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, email, password, author);
-    }
-//    @OneToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id",nullable = false)
-//    private User user;
 }

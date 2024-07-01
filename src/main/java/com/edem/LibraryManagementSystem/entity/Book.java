@@ -1,9 +1,13 @@
 package com.edem.LibraryManagementSystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.Nulls;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import javax.lang.model.element.Name;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,46 +18,57 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name = "books")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+
+    @Column(nullable = false)
     private String description;
 
-    private double price;
+    @Column(nullable = false)
+    private BigDecimal price;
 
-    private BigInteger likes;
+    @Column(nullable = false)
+    private String genre;
 
-    private LocalDateTime uploadedAt;
-    @ManyToOne @JsonIgnore
-    @JoinColumn(name = "author_id")
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private Author author;
 
-    public void likeBook(){
-        this.likes = this.likes.add(BigInteger.valueOf(1));
-    }
-    public Author getAuthor() {
-        return author;
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime deletedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Book book)) return false;
-        return Double.compare(book.price, price) == 0 && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(likes, book.likes) && Objects.equals(getAuthor(), book.getAuthor());
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return Objects.equals(getId(), book.getId()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getDescription(), book.getDescription()) && Objects.equals(getPrice(), book.getPrice()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getCreatedAt(), book.getCreatedAt()) && Objects.equals(getUpdatedAt(), book.getUpdatedAt()) && Objects.equals(getDeletedAt(), book.getDeletedAt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, price, likes, getAuthor());
+        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getAuthor(), getCreatedAt(), getUpdatedAt(), getDeletedAt());
     }
 }

@@ -1,47 +1,52 @@
 package com.edem.LibraryManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Entity
-@Table(name = "authors")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "business_owner")
+    private User user;
 
-    private String lastName;
+    private String country;
 
-    private BigInteger likes;
+    private String description;
 
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "author", orphanRemoval = true)
-    private List<Book> books = new ArrayList<>();
+    private LocalDateTime updatedAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Author author)) return false;
-        return Objects.equals(getId(), author.getId()) && Objects.equals(getFirstName(), author.getFirstName()) && Objects.equals(getLastName(), author.getLastName()) && Objects.equals(getLikes(), author.getLikes()) && Objects.equals(getCreatedAt(), author.getCreatedAt()) && Objects.equals(getBooks(), author.getBooks());
+    private LocalDateTime deletedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getLikes(), getCreatedAt(), getBooks());
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "author")
+    private List<Book> books;
 }
